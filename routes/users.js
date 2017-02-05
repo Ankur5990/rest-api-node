@@ -1,9 +1,17 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+var userModel = require('../model/users');
 
-module.exports = router;
+var users = {
+	get: (req, res, next) => {
+		userModel.get({}, (err, data) => {
+			if (!err){
+				res.json(data);
+			} else {
+				next(err);
+			}
+		});
+	},
+};
+
+module.exports = users;

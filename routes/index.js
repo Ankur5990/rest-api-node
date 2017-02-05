@@ -1,9 +1,26 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const path = require('path');
+
+
+/*Controllers*/
+const users = require('./users');
+const error = require('./error');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', (req, res, next) => {
+  //res.render('index', { title: 'Intekhab' });
+  res.sendFile(path.join(__dirname + '/../views/index.html'));
 });
 
+router.get('/users', users.get, error);
+
 module.exports = router;
+
+
+/*module.exports = function(app) {
+	app.get('/', function(req, res, next) {
+	  res.render('index', { title: 'Express' });
+	});
+}*/
