@@ -20,7 +20,7 @@ create table user(
 	lName varchar(32),
 	email varchar(32),
 	password varchar(32),
-	created_at TIMESTAMP,
-	updated_at TIMESTAMP,
+	created_at datetime,
+	updated_at datetime,
 	primary key(id)
 );

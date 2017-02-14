@@ -4,10 +4,10 @@ const con = require('../config/dbcon.js');
 pro
   .version('0.0.1')
   .option('-u, --users', 'Insert dummy data in users table')
-  .option('-n, --number', 'Number of records to insert')
+  .option('-n, --number <num>', 'Number of records to insert')
   .parse(process.argv);
 
- var howMany = pro.howMany || 100;
+ var howMany = +pro.number || 100;
 
  if (pro.users) {
  	insertInUsers();
@@ -16,7 +16,7 @@ pro
  }
 
  function insertInUsers() {
-
+ 	
  	var count = 0;
  	for (var i = -1; ++i < howMany;) {
  		var fname = (i%2) ? 'Intekhab '+i : 'Ankur '+i;
@@ -27,8 +27,8 @@ pro
  			lName: lname,
  			email: email,
  			password: '12345',
- 			created_at: 'NOW()',
- 			updated_at: 'NOW()'
+ 			created_at: '2014-11-22 12:45:34',//'NOW()',
+ 			updated_at: '2014-11-22 12:45:34',//'NOW()'
  		};
  		con.query('insert into user set ?', user, (err, result, fields) => {
  			console.log(err, count);
