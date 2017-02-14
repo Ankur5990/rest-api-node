@@ -50,8 +50,11 @@ var users = {
 
 		userModel.get(options, (err, data) => {
 			if (!err){
+				if (!data.length) {
+					return next(new Error("You are not registered with us"));
+				}
 				if (data[0] && data[0].password == req.body.password) {
-					res.json(data);
+					res.json(data[0]);
 				} else {
 					res.status(500).json({error: 'Wrong password'});
 				}
