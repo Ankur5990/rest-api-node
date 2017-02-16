@@ -24,3 +24,16 @@ create table user(
 	updated_at datetime,
 	primary key(id)
 );
+create table catagory(
+	catagory_id int unsigned not null auto_increment,
+	catagory_name varchar(32),
+	primary key(catagory_id)
+	);
+create table product(
+	product_id int unsigned not null auto_increment,
+	product_Name varchar(32),
+	description varchar(32),
+	price int,
+	catagory_id int,
+	primary key(product_id)
+);

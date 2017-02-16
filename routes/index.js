@@ -18,6 +18,8 @@ router.get('/users', users.get, error);
 
 router.post('/login', users.validate, users.login, error);
 
+router.get('/product', product.get, error);
+
 module.exports = router;
 
 
