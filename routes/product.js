@@ -1,29 +1,27 @@
-"use strict";
+'use strict'
 
-var productModel = require('../model/product.js');
-
+var productModel = require('../model/product');
 var product = {
-	get: (req,res,next) =>{
-		var options = {}
-		['product_id','price','catagory_id'].forEach((elem,index) =>{
+get: (req, res, next) =>{
+	var options = {};
+		['product_id','product_price','catalog_id'].forEach((elem,index) =>{
+				if(req.query[elem]){
+					options[elem] =req.query[elem];
+				}
+		});
+		['product_name','description'].forEach((elem, index) => {
 			if(req.query[elem]){
-				options[elem] = req.query[elem];
+					options[elem] = req.query[elem];
 			}
 		});
-		['product_name','description'].forEach((elem,index) =>{
-			if(req.query[elem]){
-				options[elem] = req.query[elem];
-			}
-		});
-
 		productModel.get(options,(err,data) =>{
-			if(!err) {
+			if(!err){
 				res.json(data);
 			}
-			else {
+			else{
 				next(err);
 			}
-		})
+		});
 	},
 };
 module.exports = product;

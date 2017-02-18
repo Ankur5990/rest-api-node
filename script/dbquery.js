@@ -1,3 +1,4 @@
+'use strict'
 const pro = require('commander');
 const con = require('../config/dbcon.js');
 
@@ -5,19 +6,19 @@ pro
   .version('0.0.1')
   .option('-u, --users', 'Insert dummy data in users table')
   .option('-n, --number <num>', 'Number of records to insert')
-  .option('-c, --catagory','Insert data in to catagory table')
-  .option('-p, --product','Insert data in to product table')
+  .option('-c, --catalog','Insert data in the catalog table')
+  .option('-p, --product','Insert data in the product table')
   .parse(process.argv);
 
- var howMany = +pro.number || 10;
+ var howMany = +pro.number || 100;
 
  if (pro.users) {
  	insertInUsers();
  }
- else if(pro.catagory){
- 	insertInCatagory();
+ else if(pro.catalog) {
+ 	insertInCatalog();
  }
- else if(pro.product){
+ else if(pro.product) {
  	insertInProduct();
  }
   else {
@@ -47,28 +48,45 @@ pro
 
  	}
  }
- function insertInCatagory(){
- 	var data = ['Men','Women','Kids','Electronics','FootWear','Leather','Watch','Undergarments'];
- 	for(var i=0; i<data.length; i++){
- 		var item = data[i];
- 		var catalog ={
- 			catagory_name:item,
- 			};
- 		con.query('insert into catagory set ?', catalog, (err,result,fields) => {
- 			console.log(err, catalog);
+
+ function insertInCatalog(){
+ 	var cat = ['Men','Women','Electronics','Sports','FootWear','Wathes'];
+ 	for(var i =0; i< cat.length; i++){
+ 		let data = {
+ 			catalog_name: cat[i]
+ 		};
+ 		con.query('insert into catalog set ?', data, (err, result, fields) => {
+ 			console.log(err, i);
  		});
  	}
  }
+
  function insertInProduct(){
- 	for(var i=0; i< howMany; i++){
- 		var prod = {
- 			product_Name: 'p' + i,
- 			description: 'This is product ' + i,
- 			price: i + 5*i,
- 			catagory_id: i,
- 		};
- 		con.query('insert into product set ?', prod, (err,result,fields) => {
- 			console.log(err, prod);
+ 	var count = 0;
+ 	for( var i=0; i< howMany ; i++){
+ 		 var p_name = 'p' + i;
+ 		 var p_desc = 'This is product p' + i;
+ 		 var price = i + i*5;
+ 		 var c_id = (i<7)? i : (function(){ 
+ 		 	var id =0 ;
+ 		 	if(count<7){ 
+ 		 		var id = count; 
+ 		 		count++ ;
+ 		 	}
+ 		 	else { 
+ 		 		id = 1; 
+ 		 		count = 0;
+ 		 	}
+ 		 	return id 
+ 		 })()
+ 		var product = {
+ 			product_name: p_name,
+ 			description: p_desc,
+ 			product_price: price,
+ 			catalog_id: c_id,
+ 		}
+ 		con.query('insert into product set ?', product,(err, result, fields) =>{
+ 			console.log(err,i,c_id);
  		});
  	}
  }

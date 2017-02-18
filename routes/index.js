@@ -6,6 +6,7 @@ const path = require('path');
 
 /*Controllers*/
 const users = require('./users');
+const product = require('./product')
 const error = require('./error');
 
 /* GET home page. */
